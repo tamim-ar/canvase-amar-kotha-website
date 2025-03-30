@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ThemeProvider } from './contexts/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -8,16 +9,16 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 
 const Layout = ({ children }) => (
-  <div className="min-h-screen bg-gray-50">
+  <div className="min-h-screen bg-gradient-to-br from-primary-light via-secondary-light to-primary-light dark:from-primary-dark dark:via-secondary-dark dark:to-primary-dark text-gray-900 dark:text-gray-100 transition-all duration-300 font-raleway">
     <Navbar />
-    <main className="container mx-auto px-4 py-8">
+    <main className="container mx-auto px-6 py-12 animate-slide-up">
       {children}
     </main>
     <Footer />
   </div>
 );
 
-const routes = [
+const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout><Home /></Layout>,
@@ -33,23 +34,19 @@ const routes = [
   {
     path: "/contact",
     element: <Layout><Contact /></Layout>,
-  },
-];
-
-const routerOptions = {
-  future: {
-    v7_startTransition: true,
-    v7_relativeSplatPath: true
   }
-};
-
-const router = createBrowserRouter(routes, routerOptions);
+]);
 
 function App() {
   return (
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
+    <ThemeProvider>
+      <RouterProvider 
+        router={router} 
+        future={{
+          v7_startTransition: true
+        }}
+      />
+    </ThemeProvider>
   );
 }
 
